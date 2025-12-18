@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\Livewire;
+use Nawasara\Kosadata\Commands\KosadataSeedCommand;
 use Symfony\Component\Finder\Finder;
 
 class KosadataServiceProvider extends ServiceProvider
@@ -18,6 +19,7 @@ class KosadataServiceProvider extends ServiceProvider
     protected function registerCommands(): void
     {
         $commands = [
+            'command.kosadata:seed' => KosadataSeedCommand::class,
         ];
 
         foreach ($commands as $key => $class) {
