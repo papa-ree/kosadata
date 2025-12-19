@@ -18,6 +18,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 
+    {!! RecaptchaV3::initJs() !!}
+
 </head>
 
 {{-- Layout For Livewire Admin Panel --}}

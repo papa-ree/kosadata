@@ -9,6 +9,9 @@ use Nawasara\Kosadata\Models\Desa;
 use Nawasara\Kosadata\Models\InternetProvider;
 use Nawasara\Kosadata\Models\IspDesa;
 use Nawasara\Kosadata\Models\Kecamatan;
+use DutchCodingCompany\LivewireRecaptcha\ValidatesRecaptcha;
+use Illuminate\Support\Facades\Validator;
+use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
 
 #[Layout('kosadata::layouts.guest')]
 #[Title('Form Internet Desa')]
@@ -30,6 +33,7 @@ class Index extends Component
 
     public $availableKecamatans;
     public $desaByKecamatan;
+    public $recaptcha;
 
     public function mount()
     {
@@ -69,7 +73,8 @@ class Index extends Component
             'user_name' => 'required|string|max:70',
             'user_job' => 'required|string|max:70',
             'kecamatan_id' => 'required|uuid|exists:kecamatans,id',
-            'desa_id' => 'required|uuid|exists:desas,id'
+            'desa_id' => 'required|uuid|exists:desas,id',
+            // 'recaptcha' => 'required|recaptchav3:store,0.7',
         ];
     }
 
@@ -100,9 +105,26 @@ class Index extends Component
         ];
     }
 
-    public function store()
+    public function store($input)
     {
+        // dd($input['g-recaptcha-response']);
+        // Validator::make($input, [
+        //     'g-recaptcha-response' => 'required|recaptchav3:store,0.5'
+        // ])->validate();
+
+        $this->recaptcha = $input['g-recaptcha-response'];
+
+        $score = RecaptchaV3::verify($input['g-recaptcha-response'], 'store');
+
+        if ($score < 0.7) {
+            $this->dispatch('toast', message: 'Silahkan Refresh Halaman Ini', type: 'error');
+            $this->dispatch('toast', message: 'Gagal Verifikasi reCAPTCHA', type: 'error');
+            $this->dispatch('show-recaptcha-message', show: true);
+            return;
+        }
+
         $this->validate();
+
 
         DB::beginTransaction();
 

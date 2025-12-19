@@ -22,6 +22,7 @@
 
         <div class="w-full max-w-lg space-y-8" x-data="{
             disabledButton: false,
+            showRecaptchaMessage: false,
             showAddProviderInput: false,
 
             isSend: $wire.entangle('sended').live,
@@ -73,7 +74,10 @@
             <div
                 class="p-6 transition-all duration-300 bg-white shadow-xl dark:bg-gray-800 rounded-2xl sm:p-8 hover:shadow-2xl">
 
-                <form wire:submit.prevent='store' class="space-y-6 select-none" x-show="!isSend">
+                <form wire:submit='store(Object.fromEntries(new FormData($event.target)))' class="space-y-6 select-none"
+                    x-show="!isSend" wire:recaptcha>
+
+                    {!! RecaptchaV3::field('store') !!}
 
                     <div
                         class="flex items-center py-3 text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">
@@ -325,6 +329,21 @@
                         <x-core::input-error for="contact_phone" />
                     </div>
 
+                    {{-- error message recaptcha --}}
+
+                    <div x-on:show-recaptcha-message.window="showRecaptchaMessage=$event.detail.show"
+                        x-show="showRecaptchaMessage" class="block justify-center space-y-2">
+                        <p class="font-semibold text-center text-red-500 dark:text-red-400">Gagal verifikasi reCAPTCHA
+                        </p>
+                        <a href="{{route('kosadata.form-internet-desa.index')}}" :disabled="disabledButton"
+                            wire:loading.attr="disabled"
+                            x-on:disabling-button.window="disabledButton = $event.detail.params"
+                            class="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform disabled:bg-gray-400 hover:scale-[1.02] active:scale-[0.98]">
+                            <span class="font-semibold tracking-wider text-white">
+                                Refresh Halaman
+                            </span>
+                        </a>
+                    </div>
 
                     {{-- <!-- Submit Button --> --}}
                     <button type="submit" :disabled="disabledButton" wire:loading.attr="disabled"
