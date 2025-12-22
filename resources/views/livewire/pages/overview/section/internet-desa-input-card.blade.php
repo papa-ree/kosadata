@@ -17,7 +17,7 @@
     <h3 class="mt-4 mb-1 text-lg font-medium text-gray-700 dark:text-gray-300">Data Input Progress</h3>
     <p class="text-2xl font-semibold">
         <span class="text-emerald-400 dark:text-emerald-300">{{ $internet_desa_count }}</span>
-        /
+        <span class="dark:text-white">/</span>
         <span class="text-red-400 dark:text-red-300">{{ $desa_no_data }}</span>
     </p>
     <div class="w-full h-2 mt-4 bg-red-400 rounded-full dark:bg-red-700">

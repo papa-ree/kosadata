@@ -17,6 +17,10 @@ class InternetProvider extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
+            get: fn(?string $value) => $value
+            ? Str::of($value)->title()
+            : null,
+
             set: fn($value) => Str::of($value)->trim()->squish()->lower()
         );
     }

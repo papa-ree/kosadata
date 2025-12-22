@@ -74,7 +74,6 @@ class Index extends Component
             'user_job' => 'required|string|max:70',
             'kecamatan_id' => 'required|uuid|exists:kecamatans,id',
             'desa_id' => 'required|uuid|exists:desas,id',
-            // 'recaptcha' => 'required|recaptchav3:store,0.7',
         ];
     }
 
@@ -107,11 +106,6 @@ class Index extends Component
 
     public function store($input)
     {
-        // dd($input['g-recaptcha-response']);
-        // Validator::make($input, [
-        //     'g-recaptcha-response' => 'required|recaptchav3:store,0.5'
-        // ])->validate();
-
         $this->recaptcha = $input['g-recaptcha-response'];
 
         $score = RecaptchaV3::verify($input['g-recaptcha-response'], 'store');
@@ -124,7 +118,6 @@ class Index extends Component
         }
 
         $this->validate();
-
 
         DB::beginTransaction();
 

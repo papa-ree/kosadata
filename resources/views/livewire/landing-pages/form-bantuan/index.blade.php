@@ -3,7 +3,7 @@
         {{-- <!-- Theme Toggle --> --}}
 
         <div class="absolute p-0.5 rounded-full bg-emerald-300 right-3 top-3">
-            <x-bale.dark-mode-toggle />
+            <x-core::dark-mode-toggle />
         </div>
 
         <div class="w-full max-w-lg space-y-8" x-data="{isSend: $wire.entangle('sended').live, disabledButton: false}">
@@ -58,7 +58,7 @@
                                 class="block w-full py-3 pl-10 pr-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 form-input dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                                 placeholder="Masukkan nama lengkap Anda" required autocomplete="off">
                         </div>
-                        <x-input-error for="name" />
+                        <x-core::input-error for="name" />
                     </div>
 
                     {{-- <!-- NIP Field --> --}}
@@ -83,7 +83,7 @@
                                 class="block w-full py-3 pl-10 pr-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 form-input dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                                 placeholder="Masukkan NIP Anda" required autocomplete="off">
                         </div>
-                        <x-input-error for="nip" />
+                        <x-core::input-error for="nip" />
                     </div>
 
                     {{-- <!-- WhatsApp Field --> --}}
@@ -108,7 +108,7 @@
                         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                             Kami membutuhkan nomor whatsapp yang aktif untuk menghubungi anda
                         </p>
-                        <x-input-error for="phone" />
+                        <x-core::input-error for="phone" />
                     </div>
 
                     {{-- <!-- Deskripsi Field --> --}}
@@ -132,7 +132,7 @@
                                 autocomplete="off">
                                 </textarea>
                         </div>
-                        <x-input-error for="description" />
+                        <x-core::input-error for="description" />
                     </div>
 
                     {{-- <!-- Submit Button --> --}}

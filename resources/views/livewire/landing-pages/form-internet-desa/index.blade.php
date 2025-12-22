@@ -3,8 +3,7 @@
     <div class="flex items-center justify-center min-h-full px-4 pt-5 sm:px-6 lg:px-8" wire:cloak>
 
         <div class="absolute p-0.5 left-3 top-3">
-            <a href="/"
-                class="select-none flex items-center dark:text-white text-gray-800 sm:gap-x-3">
+            <a href="/" class="select-none flex items-center dark:text-white text-gray-800 sm:gap-x-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="size-6 lucide lucide-arrow-left-icon lucide-arrow-left">
@@ -224,14 +223,14 @@
                                 </svg>
                             </div>
 
-                            <select wire:model="name" x-model="providerName"
+                            <select wire:model="internet_provider_id" x-model="providerName"
                                 class="block w-full py-3 pl-10 pr-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 form-input dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                                 <option selected="" value="">
                                     Pilih
                                 </option>
 
                                 @foreach ($this->availableProviders as $provider)
-                                    <option value="{{ $provider->name }}">
+                                    <option value="{{ $provider->id }}">
                                         {{ $provider->name }}
                                     </option>
                                 @endforeach

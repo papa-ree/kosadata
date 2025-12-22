@@ -6,8 +6,23 @@
             <form wire:submit='{{ $editMode ? 'update' : 'store' }}'>
 
                 <div class="mb-4 sm:mb-6">
-                    <x-core::input label="internet provider name" wire:model='name' />
-                    <x-core::input-error for="name" />
+                    <label for="provider" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Internet Provider
+                    </label>
+                    <select wire:model="internet_provider_id"
+                        class="block w-full py-3 px-4 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 form-input dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+                        <option value="">
+                            Pilih
+                        </option>
+
+                        @foreach ($this->availableProviders as $provider)
+                            <option value="{{ $provider->id }}">
+                                {{ $provider->name }}
+                            </option>
+                        @endforeach
+
+                    </select>
+                    <x-core::input-error for="internet_provider_id" />
                 </div>
 
                 <div class="mb-4 sm:mb-6">

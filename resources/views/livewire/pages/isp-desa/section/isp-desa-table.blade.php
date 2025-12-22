@@ -50,7 +50,7 @@
                     <td class="w-full py-4 pl-4 pr-3 text-sm font-medium text-gray-900 max-w-0 sm:w-auto sm:max-w-none">
                         <a href="{{ route('kosadata.isp-desa.edit', $isp->id) }}" wire:navigate.hover
                             class="block text-sm font-semibold text-gray-800 transition ease-in-out dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400">
-                            {{ $isp->name }}
+                            {{ $isp->provider->name }}
                         </a>
                         <dl class="font-normal lg:hidden">
                             <dt class="sr-only sm:hidden">Created At</dt>

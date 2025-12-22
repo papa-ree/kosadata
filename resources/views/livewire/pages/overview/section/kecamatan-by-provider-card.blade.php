@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between mb-6">
         <div class="">
             <h2 class="text-xl font-bold text-gray-900 dark:text-white">Provider</h2>
-            <p class="text-gray-700 text-sm dark:bg-gray-700/50">
+            <p class="text-gray-700 text-sm dark:text-white">
                 Number of kecamatan using the provider
             </p>
         </div>
@@ -31,7 +31,7 @@
                         <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">
                             {{ $row->provider->name }}
                         </td>
-                        <td class="px-4 py-3 text-end">
+                        <td class="px-4 py-3 text-end dark:text-white">
                             {{ $row->total_kecamatan }}
                         </td>
                     </tr>

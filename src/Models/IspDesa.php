@@ -17,17 +17,6 @@ class IspDesa extends Model
 
     protected $guarded = ['id'];
 
-    protected function name(): Attribute
-    {
-        return Attribute::make(
-            get: fn(?string $value) => $value
-            ? Str::of($value)->title()
-            : null,
-
-            set: fn($value) => Str::of($value)->trim()->squish()->lower()
-        );
-    }
-
     protected function contactName(): Attribute
     {
         return Attribute::make(
@@ -113,11 +102,13 @@ class IspDesa extends Model
         $keyword = trim($key);
 
         return $query->where(function (Builder $q) use ($keyword) {
-            $q->where('name', 'like', "%{$keyword}%")
-                ->orWhere('contact_name', 'like', "%{$keyword}%")
+
+            // Field lokal isp_desas
+            $q->where('contact_name', 'like', "%{$keyword}%")
                 ->orWhere('user_name', 'like', "%{$keyword}%")
                 ->orWhere('user_job', 'like', "%{$keyword}%");
 
+            // Nomor telepon (hash)
             if (preg_match('/^\+?\d+$/', $keyword)) {
                 $q->orWhere(
                     'contact_phone_hash',
@@ -125,17 +116,28 @@ class IspDesa extends Model
                 );
             }
 
-            $q->orWhereHas(
-                'kecamatan',
-                fn($q) =>
-                $q->where('name', 'like', "%{$keyword}%")
-            );
+            // Provider (pengganti field name)
+            $q->orWhereHas('provider', function (Builder $q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%");
+            });
 
-            $q->orWhereHas(
-                'desa',
-                fn($q) =>
-                $q->where('name', 'like', "%{$keyword}%")
-            );
+            // Kecamatan
+            $q->orWhereHas('kecamatan', function (Builder $q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%");
+            });
+
+            // Desa
+            $q->orWhereHas('desa', function (Builder $q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%");
+            });
         });
+    }
+
+    public function scopeOrderByKecamatanName(Builder $query, string $direction = 'asc'): Builder
+    {
+        return $query
+            ->leftJoin('kecamatans', 'kecamatans.id', '=', 'isp_desas.kecamatan_id')
+            ->orderBy('kecamatans.name', $direction)
+            ->select('isp_desas.*');
     }
 }

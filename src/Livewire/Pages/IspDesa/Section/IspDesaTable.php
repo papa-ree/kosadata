@@ -39,10 +39,9 @@ class IspDesaTable extends Component
     public function availableIspDesas()
     {
         return IspDesa::query()
+            ->with(['provider', 'kecamatan', 'desa'])
             ->search($this->query)
-            ->with(['kecamatan:id,name', 'desa:id,name'])
-            ->orderBy('name')
-            ->select(['id', 'name', 'contact_phone', 'contact_name', 'user_name', 'user_job', 'kecamatan_id', 'desa_id', 'created_at'])
-            ->paginate(100);
+            ->orderByKecamatanName()
+            ->paginate(10);
     }
 }

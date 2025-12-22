@@ -44,8 +44,8 @@
                     </td>
 
                     <td class="py-4 pl-3 pr-4 text-sm font-medium text-right ">
-                        <x-core::option wire:key="{{ $isp->id }}" :item="$isp->id" :itemId="$isp->id"
-                            route="kosadata.internet-provider.edit" :deleteButton="true" />
+                        <x-core::option wire:key="{{ $isp->id }}" item="{{$isp->id}}" itemId="{{$isp->id}}"
+                            route="kosadata.internet-provider.edit" :deleteButton="$isp->ispDesas->count() == 0 ? true : false" />
                     </td>
                 </tr>
             @endforeach
