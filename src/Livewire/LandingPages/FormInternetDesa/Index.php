@@ -110,7 +110,7 @@ class Index extends Component
 
         $score = RecaptchaV3::verify($input['g-recaptcha-response'], 'store');
 
-        if ($score < 0.7) {
+        if ($score < 0.9) {
             $this->dispatch('toast', message: 'Silahkan Refresh Halaman Ini', type: 'error');
             $this->dispatch('toast', message: 'Gagal Verifikasi reCAPTCHA', type: 'error');
             $this->dispatch('show-recaptcha-message', show: true);
