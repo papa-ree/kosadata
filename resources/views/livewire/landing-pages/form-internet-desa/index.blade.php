@@ -223,14 +223,14 @@
                                 </svg>
                             </div>
 
-                            <select wire:model="internet_provider_id" x-model="providerName"
+                            <select wire:model="name" x-model="providerName"
                                 class="block w-full py-3 pl-10 pr-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 form-input dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                                 <option selected="" value="">
                                     Pilih
                                 </option>
 
                                 @foreach ($this->availableProviders as $provider)
-                                    <option value="{{ $provider->id }}">
+                                    <option value="{{ $provider->name }}">
                                         {{ $provider->name }}
                                     </option>
                                 @endforeach
