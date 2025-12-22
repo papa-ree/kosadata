@@ -3,7 +3,7 @@
     <div class="flex items-center justify-center min-h-full px-4 pt-5 sm:px-6 lg:px-8" wire:cloak>
 
         <div class="absolute p-0.5 left-3 top-3">
-            <a href="/" wire:navigate.hover
+            <a href="/"
                 class="select-none flex items-center dark:text-white text-gray-800 sm:gap-x-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
