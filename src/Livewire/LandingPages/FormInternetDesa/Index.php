@@ -25,15 +25,11 @@ class Index extends Component
     public $user_job;
     public $kecamatan_id;
     public $desa_id;
-
     public $desas = [];
-
-    public $showAddProviderInput = false;
     public $sended = false;
-
     public $availableKecamatans;
     public $desaByKecamatan;
-    public $recaptcha;
+    public $recaptchaToken = '';
 
     public function mount()
     {
@@ -47,7 +43,6 @@ class Index extends Component
                 'name' => $d->name,
             ]))
             ->toArray();
-
     }
 
 
@@ -104,13 +99,11 @@ class Index extends Component
         ];
     }
 
-    public function store($input)
+    public function store()
     {
-        $this->recaptcha = $input['g-recaptcha-response'];
+        $score = RecaptchaV3::verify($this->recaptchaToken, 'store');
 
-        $score = RecaptchaV3::verify($input['g-recaptcha-response'], 'store');
-
-        if ($score < 0.9) {
+        if (!$score || $score < 0.5) {
             $this->dispatch('toast', message: 'Silahkan Refresh Halaman Ini', type: 'error');
             $this->dispatch('toast', message: 'Gagal Verifikasi reCAPTCHA', type: 'error');
             $this->dispatch('show-recaptcha-message', show: true);

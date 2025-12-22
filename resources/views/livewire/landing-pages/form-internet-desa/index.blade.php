@@ -24,9 +24,9 @@
             showRecaptchaMessage: false,
             showAddProviderInput: false,
 
-            isSend: $wire.entangle('sended').live,
-            kecamatanId: $wire.entangle('kecamatan_id').live,
-            desaId: $wire.entangle('desa_id').live,
+            isSend: $wire.entangle('sended'),
+            kecamatanId: $wire.entangle('kecamatan_id'),
+            desaId: $wire.entangle('desa_id'),
 
             providerName: '',
 
@@ -73,10 +73,9 @@
             <div
                 class="p-6 transition-all duration-300 bg-white shadow-xl dark:bg-gray-800 rounded-2xl sm:p-8 hover:shadow-2xl">
 
-                <form wire:submit='store(Object.fromEntries(new FormData($event.target)))' class="space-y-6 select-none"
-                    x-show="!isSend" wire:recaptcha>
+                <form wire:submit='store' class="space-y-6 select-none" x-show="!isSend">
 
-                    {!! RecaptchaV3::field('store') !!}
+                    <input type="hidden" id="recaptcha_token">
 
                     <div
                         class="flex items-center py-3 text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">
@@ -347,7 +346,14 @@
                     {{-- <!-- Submit Button --> --}}
                     <button type="submit" :disabled="disabledButton" wire:loading.attr="disabled"
                         x-on:disabling-button.window="disabledButton = $event.detail.params"
-                        class="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform disabled:bg-gray-400 hover:scale-[1.02] active:scale-[0.98]">
+                        class="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform disabled:bg-gray-400 hover:scale-[1.02] active:scale-[0.98]"
+                        @click.prevent="
+                            grecaptcha.execute('{{ config('recaptchav3.sitekey') }}', {action: 'store'})
+                                .then(token => {
+                                    $wire.set('recaptchaToken', token);
+                                    $wire.store();
+                                });
+                        ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="mr-2 lucide lucide-send-icon lucide-send">
