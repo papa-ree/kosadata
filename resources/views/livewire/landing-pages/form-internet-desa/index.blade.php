@@ -3,7 +3,7 @@
     <div class="flex items-center justify-center min-h-full px-4 pt-5 sm:px-6 lg:px-8" wire:cloak>
 
         <div class="absolute p-0.5 left-3 top-3">
-            <a href="/" class="select-none flex items-center dark:text-white text-gray-800 sm:gap-x-3">
+            {{-- <a href="/" class="select-none flex items-center dark:text-white text-gray-800 sm:gap-x-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="size-6 lucide lucide-arrow-left-icon lucide-arrow-left">
@@ -11,7 +11,7 @@
                     <path d="M19 12H5" />
                 </svg>
                 <span class="sm:block hidden">Kembali ke halaman utama</span>
-            </a>
+            </a> --}}
         </div>
 
         {{-- <!-- Theme Toggle --> --}}
@@ -61,8 +61,8 @@
                             d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
                     </svg>
                 </div>
-                <h2 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
-                    Form Pendataan Internet Desa
+                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                    Form Pendataan Penyedia Internet di Desa
                 </h2>
                 {{-- <p class="text-lg text-gray-600 dark:text-gray-400">
                     Pendataan
@@ -77,8 +77,29 @@
 
                     <input type="hidden" id="recaptcha_token">
 
+                    <p class="dark:text-white block text-center font-semibold text-gray-500 underline">Petunjuk
+                        Pengisian</p>
+
+                    <ul
+                        class="marker:text-emerald-600 list-disc ps-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <li>
+                            Semua Wajib Diisi
+                        </li>
+                        <li>
+                            Apabila terdapat lebih dari satu penyedia internet/WiFi di desa Saudara, silakan mengisi
+                            formulir ini lebih dari satu kali.
+                        </li>
+                        <li>
+                            Setiap satu kali pengisian hanya untuk satu data penyedia internet.
+                        </li>
+                        <li>
+                            Jika penyedia internet desa tidak muncul pada pilihan "Pilih Penyedia Internet Desa", maka
+                            silahkan pilih <b>Lainnya</b>. Lalu masukkan nama penyedia internet desa anda.
+                        </li>
+                    </ul>
+
                     <div
-                        class="flex items-center py-3 text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">
+                        class="flex items-center py-3 text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">
                         Data Desa
                     </div>
 
@@ -116,6 +137,7 @@
                                 @endforeach
                             </select>
                         </div>
+
                         <x-core::input-error for="kecamatan_id" />
                     </div>
 
@@ -197,7 +219,7 @@
                     </div>
 
                     <div
-                        class="flex items-center py-3 text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">
+                        class="flex items-center py-3 text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">
                         Data Penyedia Internet Desa
                     </div>
 
@@ -389,7 +411,7 @@
                     </div>
 
                     <div
-                        class="flex items-center py-3 text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">
+                        class="flex items-center py-3 text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">
                         atau
                     </div>
 
