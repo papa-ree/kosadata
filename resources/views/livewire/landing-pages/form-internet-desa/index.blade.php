@@ -97,8 +97,8 @@
                             silahkan pilih <b>Lainnya</b>. Lalu masukkan nama penyedia internet desa anda.
                         </li>
                         <li>
-                            Penyedia Internet yang dimaksud adalah ISP (Internet Service Provider) yang digunakan kantor
-                            desa.
+                            Penyedia Internet yang dimaksud adalah ISP (Internet Service Provider) yang beroperasi di
+                            wilayah desa.
                         </li>
                     </ul>
 
@@ -195,9 +195,34 @@
                             </div>
                             <input type="text" id="user-name" wire:model='user_name'
                                 class="block w-full py-3 pl-10 pr-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 form-input dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                                placeholder="Nama Pengisi Form" autocomplete="off">
+                                placeholder="Nama Pengisi Form">
                         </div>
                         <x-core::input-error for="user_name" />
+                    </div>
+
+                    {{-- user phone --}}
+                    <div>
+                        <label for="user-phone" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Nomor Whatsapp Petugas Desa
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="w-4 h-4 text-gray-400 lucide lucide-phone-icon lucide-phone">
+                                    <path
+                                        d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+                                </svg>
+                            </div>
+                            <input type="text" wire:model='user_phone' x-mask="99999999999999" id="contact-phone"
+                                class="block w-full py-3 pl-10 pr-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 form-input dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                placeholder="Contoh: 081234567890" autocomplete="off">
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                            Kami membutuhkan nomor whatsapp yang aktif agar dapat menghubungi anda
+                        </p>
+                        <x-core::input-error for="user_phone" />
                     </div>
 
                     {{-- jabatan pengisi --}}
@@ -217,7 +242,7 @@
                             </div>
                             <input type="text" id="user-job" wire:model='user_job'
                                 class="block w-full py-3 pl-10 pr-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 form-input dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                                placeholder="Jabatan Pengisi" autocomplete="off">
+                                placeholder="Jabatan Pengisi">
                         </div>
                         <x-core::input-error for="user_job" />
                     </div>
@@ -331,7 +356,7 @@
                     <div>
                         <label for="contact-phone"
                             class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Nomor HP Kontak Penyedia Internet
+                            Nomor Whatsapp Kontak Penyedia Internet
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -345,11 +370,11 @@
                             </div>
                             <input type="text" wire:model='contact_phone' x-mask="99999999999999" id="contact-phone"
                                 class="block w-full py-3 pl-10 pr-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 form-input dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                                placeholder="Contoh: 081234567890" autocomplete="off">
+                                placeholder="Contoh: 081234567890">
                         </div>
-                        {{-- <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                            Kami membutuhkan nomor whatsapp yang aktif untuk menghubungi anda
-                        </p> --}}
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                            Kami membutuhkan nomor whatsapp yang aktif agar dapat menghubungi kontak penyedia internet
+                        </p>
                         <x-core::input-error for="contact_phone" />
                     </div>
 

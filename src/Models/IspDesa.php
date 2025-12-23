@@ -60,6 +60,27 @@ class IspDesa extends Model
         );
     }
 
+    protected function userPhone(): Attribute
+    {
+        return Attribute::make(
+            get: fn(?string $value) => $value
+            ? Crypt::decryptString($value)
+            : null,
+
+            set: function (?string $value) {
+                return [
+                    'user_phone' => $value
+                        ? Crypt::encryptString($value)
+                        : null,
+
+                    'user_phone_hash' => $value
+                        ? hash('sha256', $value)
+                        : null,
+                ];
+            }
+        );
+    }
+
     protected function userJob(): Attribute
     {
         return Attribute::make(

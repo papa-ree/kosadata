@@ -9,9 +9,10 @@ use Nawasara\Kosadata\Models\Desa;
 use Nawasara\Kosadata\Models\InternetProvider;
 use Nawasara\Kosadata\Models\IspDesa;
 use Nawasara\Kosadata\Models\Kecamatan;
-use DutchCodingCompany\LivewireRecaptcha\ValidatesRecaptcha;
 use Illuminate\Support\Facades\Validator;
 use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
+use Nawasara\Kosadata\Rules\ActiveWhatsapp;
+use Nawasara\Wago\Services\WagoService;
 
 #[Layout('kosadata::layouts.guest')]
 #[Title('Form Internet Desa')]
@@ -22,6 +23,7 @@ class Index extends Component
     public $contact_name;
     public $contact_phone;
     public $user_name;
+    public $user_phone;
     public $user_job;
     public $kecamatan_id;
     public $desa_id;
@@ -30,6 +32,8 @@ class Index extends Component
     public $availableKecamatans;
     public $desaByKecamatan;
     public $recaptchaToken = '';
+    public string $normalized_user_phone = '';
+    public string $normalized_contact_phone = '';
 
     public function mount()
     {
@@ -45,7 +49,6 @@ class Index extends Component
             ->toArray();
     }
 
-
     public function render()
     {
 
@@ -58,27 +61,42 @@ class Index extends Component
         return InternetProvider::orderBy('name')->get();
     }
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'name' => 'required|string|max:70',
-            'new_provider_name' => 'max:70|required_if:name,other',
+            'new_provider_name' => 'required_if:name,other|max:70',
+
             'contact_name' => 'required|string|max:70',
-            'contact_phone' => 'required|string|max:16',
+            'contact_phone' => [
+                'required',
+                'string',
+                'max:16',
+                new ActiveWhatsapp(config('kosadata.whatsapp_user_verification')),
+            ],
+
             'user_name' => 'required|string|max:70',
+            'user_phone' => [
+                'required',
+                'string',
+                'max:16',
+                new ActiveWhatsapp(config('kosadata.whatsapp_user_verification')),
+            ],
+
             'user_job' => 'required|string|max:70',
             'kecamatan_id' => 'required|uuid|exists:kecamatans,id',
             'desa_id' => 'required|uuid|exists:desas,id',
         ];
     }
 
+
     protected function messages()
     {
         return [
-            'name.required' => 'Nama Provider Internet wajib diisi',
+            'name.required' => 'Penyedia Internet wajib dipilih',
             'name.string' => 'Gunakan karakter',
             'name.max' => 'Maksimal 70 karakter',
-            'new_provider_name.required_if' => 'Nama Provider Internet wajib diisi',
+            'new_provider_name.required_if' => 'Nama Penyedia Internet wajib diisi',
             'new_provider_name.string' => 'Gunakan karakter',
             'new_provider_name.max' => 'Maksimal 70 karakter',
             'contact_name.required' => 'Nama Kontak Provider Internet wajib diisi',
@@ -90,6 +108,9 @@ class Index extends Component
             'user_name.required' => 'Nama Petugas Desa wajib diisi',
             'user_name.string' => 'Gunakan karakter',
             'user_name.max' => 'Maksimal 70 karakter',
+            'user_phone.required' => 'Nomor HP wajib diisi',
+            'user_phone.string' => 'Gunakan karakter',
+            'user_phone.max' => 'Maksimal 16 karakter',
             'user_job.required' => 'Jabatan Petugas Desa wajib diisi',
             'user_job.string' => 'Gunakan karakter',
             'user_job.max' => 'Maksimal 70 karakter',
@@ -101,6 +122,10 @@ class Index extends Component
 
     public function store()
     {
+        $this->resetErrorBag();
+
+        $validated = $this->validate();
+
         $score = RecaptchaV3::verify($this->recaptchaToken, 'store');
 
         if (!$score || $score < 0.5) {
@@ -110,69 +135,45 @@ class Index extends Component
             return;
         }
 
-        $this->validate();
+        DB::transaction(function () use ($validated) {
 
-        DB::beginTransaction();
+            $providerName = $validated['name'] === 'other'
+                ? $validated['new_provider_name']
+                : $validated['name'];
 
-        try {
-            $provider_name = $this->name == "other" ? $this->new_provider_name : $this->name;
+            $provider = InternetProvider::firstOrCreate([
+                'name' => $providerName,
+            ]);
 
-            $provider = InternetProvider::updateOrCreate(
-                [
-                    'name' => $provider_name,
-                ],
-                []
-            );
+            IspDesa::create([
+                'internet_provider_id' => $provider->id,
+                'contact_name' => $validated['contact_name'],
+                'contact_phone' => $this->normalizePhone($validated['contact_phone']),
+                'user_name' => $validated['user_name'],
+                'user_phone' => $this->normalizePhone($validated['user_phone']),
+                'user_job' => $validated['user_job'],
+                'kecamatan_id' => $validated['kecamatan_id'],
+                'desa_id' => $validated['desa_id'],
+            ]);
+        });
 
-            $this->storeProviderDesa($provider->id);
-
-            DB::commit();
-            $this->sended = true;
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $this->dispatch('disabling-button', params: false);
-            info('Add Internet Desa Form failed: ' . $th->getMessage());
-            $this->dispatch('toast', message: 'Something Wrong!', type: 'error');
-        }
+        $this->sended = true;
     }
 
-    protected function convertPhoneToWhatsApp($phoneNumber)
+
+    protected function normalizePhone(string $phone): string
     {
-        // Hapus semua karakter non-digit
-        $cleaned = preg_replace('/\D/', '', $phoneNumber);
+        $phone = preg_replace('/\D/', '', $phone);
 
-        // Jika diawali dengan '08', ganti dengan '628'
-        if (substr($cleaned, 0, 2) === '08') {
-            return '62' . substr($cleaned, 1);
+        if (str_starts_with($phone, '08')) {
+            return '62' . substr($phone, 1);
         }
 
-        // Jika sudah diawali dengan '62', biarkan as is
-        if (substr($cleaned, 0, 2) === '62') {
-            return $cleaned;
+        if (str_starts_with($phone, '8')) {
+            return '62' . $phone;
         }
 
-        // Jika diawali dengan '8', tambahkan '62'
-        if (substr($cleaned, 0, 1) === '8') {
-            return '62' . $cleaned;
-        }
+        return $phone;
 
-        // Untuk format lainnya, return yang sudah dibersihkan
-        return $cleaned;
-    }
-
-    protected function storeProviderDesa($provider_id)
-    {
-        $convert_phone = $this->convertPhoneToWhatsApp($this->contact_phone);
-
-        IspDesa::create([
-            'internet_provider_id' => $provider_id,
-            'contact_name' => $this->contact_name,
-            'contact_phone' => $convert_phone,
-            'user_name' => $this->user_name,
-            'user_job' => $this->user_job,
-            'kecamatan_id' => $this->kecamatan_id,
-            'desa_id' => $this->desa_id,
-        ]);
     }
 }
