@@ -122,7 +122,7 @@
                     {{-- Desa --}}
                     <div>
                         <label for="desa" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Desa
+                            Desa/Kelurahan
                         </label>
 
                         <div class="relative">
@@ -141,7 +141,7 @@
                                 class="block w-full py-3 pl-10 pr-3 disabled:bg-gray-100 disabled:dark:bg-gray-800 disabled:text-gray-500 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 form-input dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
                                 <option value="">
                                     <span
-                                        x-text="kecamatanId ? 'Pilih Desa' : 'Pilih Kecamatan terlebih dahulu'"></span>
+                                        x-text="kecamatanId ? 'Pilih Desa/Kelurahan' : 'Pilih Kecamatan terlebih dahulu'"></span>
                                 </option>
 
                                 <template x-for="desa in desas" :key="desa.id">
