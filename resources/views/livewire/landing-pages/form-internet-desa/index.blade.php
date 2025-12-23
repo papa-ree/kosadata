@@ -83,7 +83,7 @@
                     <ul
                         class="marker:text-emerald-600 list-disc ps-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
                         <li>
-                            Semua Wajib Diisi
+                            Semua Wajib Diisi.
                         </li>
                         <li>
                             Apabila terdapat lebih dari satu penyedia internet/WiFi di desa Saudara, silakan mengisi
@@ -95,6 +95,10 @@
                         <li>
                             Jika penyedia internet desa tidak muncul pada pilihan "Pilih Penyedia Internet Desa", maka
                             silahkan pilih <b>Lainnya</b>. Lalu masukkan nama penyedia internet desa anda.
+                        </li>
+                        <li>
+                            Penyedia Internet yang dimaksud adalah ISP (Internet Service Provider) yang digunakan kantor
+                            desa.
                         </li>
                     </ul>
 
