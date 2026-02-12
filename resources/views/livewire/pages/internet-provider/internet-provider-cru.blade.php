@@ -1,5 +1,5 @@
 <div>
-    <x-core::back-breadcrumb :href="route('kosadata.internet-provider.index')" label="Internet Provider list" />
+    <x-core::breadcrumb :href="route('kosadata.internet-provider.index')" label="Internet Provider list" />
 
     <div class="sm:w-1/3">
         <x-core::page-container>

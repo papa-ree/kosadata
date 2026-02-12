@@ -1,5 +1,5 @@
 <div>
-    <x-core::back-breadcrumb :href="route('kosadata.isp-desa.index')" label="Internet Desa" />
+    <x-core::breadcrumb :href="route('kosadata.isp-desa.index')" label="Internet Desa" />
 
     <div class="sm:w-1/3">
         <x-core::page-container>
