@@ -12,17 +12,26 @@ use Nawasara\Kosadata\Models\IspDesa;
 class InternetDesaInputCard extends Component
 {
     public $internet_desa_count;
+    public $desa_total_count;
+    public $desa_with_data_count;
     public $desa_no_data;
+    public $progress_percentage = 0;
 
     public function mount()
     {
-        $this->internet_desa_count = IspDesa::get()->count();
+        $this->internet_desa_count = IspDesa::count();
 
-        $this->desa_no_data = Desa::query()
-            ->leftJoin('isp_desas', 'isp_desas.desa_id', '=', 'desas.id')
-            ->whereNull('isp_desas.id')
-            ->count();
-        ;
+        $this->desa_total_count = Desa::count();
+
+        $this->desa_with_data_count = Desa::has('ispDesas')->count();
+
+        $this->desa_no_data = $this->desa_total_count - $this->desa_with_data_count;
+
+        if ($this->desa_total_count > 0) {
+            $this->progress_percentage = ($this->desa_with_data_count / $this->desa_total_count) * 100;
+        } else {
+            $this->progress_percentage = 0;
+        }
     }
 
     public function render()

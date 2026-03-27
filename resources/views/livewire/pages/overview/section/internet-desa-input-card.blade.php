@@ -10,18 +10,18 @@
         </div>
         <span
             class="px-2 py-1 text-xs rounded-full text-emerald-800 bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400">
-            {{ number_format(($internet_desa_count / $desa_no_data) * 100) }}%
+            {{ number_format($progress_percentage) }}%
             input
         </span>
     </div>
     <h3 class="mt-4 mb-1 text-lg font-medium text-gray-700 dark:text-gray-300">Data Input Progress</h3>
     <p class="text-2xl font-semibold">
-        <span class="text-emerald-400 dark:text-emerald-300">{{ $internet_desa_count }}</span>
+        <span class="text-emerald-400 dark:text-emerald-300">{{ $desa_with_data_count }}</span>
         <span class="dark:text-white">/</span>
-        <span class="text-red-400 dark:text-red-300">{{ $desa_no_data }}</span>
+        <span class="text-red-400 dark:text-red-300">{{ $desa_total_count }}</span>
     </p>
     <div class="w-full h-2 mt-4 bg-red-400 rounded-full dark:bg-red-700">
-        <div class="h-2 rounded-full bg-emerald-400" style="width: {{ ($internet_desa_count / $desa_no_data) * 100 }}%">
+        <div class="h-2 rounded-full bg-emerald-400" style="width: {{ $progress_percentage }}%">
         </div>
     </div>
 </div>
