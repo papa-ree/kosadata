@@ -12,6 +12,11 @@ class Kecamatan extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'created_at' => 'datetime:d M Y',
+        'updated_at' => 'datetime:d M Y',
+    ];
+
     public function desas(): HasMany
     {
         return $this->hasMany(Desa::class);

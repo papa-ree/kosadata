@@ -107,12 +107,10 @@ class IspDesa extends Model
         return $this->belongsTo(InternetProvider::class, 'internet_provider_id');
     }
 
-    protected function createdAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn(string $value) => Carbon::parse($value)->format('d-m-Y H:i:s'),
-        );
-    }
+    protected $casts = [
+        'created_at' => 'datetime:d M Y',
+        'updated_at' => 'datetime:d M Y',
+    ];
 
     public function scopeSearch(Builder $query, ?string $key): Builder
     {

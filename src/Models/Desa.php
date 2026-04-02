@@ -13,6 +13,11 @@ class Desa extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'created_at' => 'datetime:d M Y',
+        'updated_at' => 'datetime:d M Y',
+    ];
+
     public function kecamatan(): BelongsTo
     {
         return $this->belongsTo(Kecamatan::class);
